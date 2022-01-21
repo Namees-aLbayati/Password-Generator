@@ -12,20 +12,17 @@ const upperCase='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const lowerCase='abcdefghijklmnopqrstuvwxyz';
 const symbols='~!@#$%^&*()_+-=';
 const number='1234567890';
+
+
 generateEl.addEventListener('click', ()=> {
-	mypassword ='';
+	mypassword='';
 	let passlength=lengthEl.value;
-
-
 	uppercaseEl.checked ? mypassword+=upperCase:''; // condition ? exprIfTrue : exprIfFalse =if else condition
-
 	console.log(mypassword);
 	lowercaseEl.checked?mypassword+=lowerCase:'';
 	symbolsEl.checked?mypassword+=symbols:'';
 	numbersEl.checked? mypassword+=number:'';
 		console.log(typeof mypassword)
-
-	
 	resultEl.value=generatePass(passlength,mypassword)
 	});
 	function generatePass(passlength,mypassword){
@@ -34,4 +31,10 @@ generateEl.addEventListener('click', ()=> {
 			Result += mypassword.charAt(Math.floor(Math.random() * 
 			mypassword.length));		}
 			return Result
-	}
+		}
+		clipboard.addEventListener('click',()=>{
+			navigator.clipboard.writeText(resultEl.value);
+			alert('your password has been copied:'+resultEl.value)
+
+		})
+
