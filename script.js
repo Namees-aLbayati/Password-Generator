@@ -1,3 +1,4 @@
+//DOM Elements
 const resultEl = document.getElementById('result');
 const lengthEl = document.getElementById('length');
 const uppercaseEl = document.getElementById('uppercase');
@@ -6,83 +7,31 @@ const numbersEl = document.getElementById('numbers');
 const symbolsEl = document.getElementById('symbols');
 const generateEl = document.getElementById('generate');
 const clipboard = document.getElementById('clipboard');
-
-const randomFunc = {
-	lower: getRandomLower,
-	upper: getRandomUpper,
-	number: getRandomNumber,
-	symbol: getRandomSymbol
-}
-
-clipboard.addEventListener('click', () => {
-var copyText=document.getElementById('result');
-copyText.select();
-navigator.clipboard.writeText(copyText.value);
-alert("Copied the text:  " + copyText.value);
+var mypassword;//global var to be access with the functionsand use with the local var
+const upperCase='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const lowerCase='abcdefghijklmnopqrstuvwxyz';
+const symbols='~!@#$%^&*()_+-=';
+const number='1234567890';
+generateEl.addEventListener('click', ()=> {
+	mypassword ='';
+	let passlength=lengthEl.value;
 
 
-});
+	uppercaseEl.checked ? mypassword+=upperCase:''; // condition ? exprIfTrue : exprIfFalse =if else condition
 
-generate.addEventListener('click', () => {
-	const length = +lengthEl.value;
-	const hasLower = lowercaseEl.checked;
-	const hasUpper = uppercaseEl.checked;
-	const hasNumber = numbersEl.checked;
-	const hasSymbol = symbolsEl.checked;
+	console.log(mypassword);
+	lowercaseEl.checked?mypassword+=lowerCase:'';
+	symbolsEl.checked?mypassword+=symbols:'';
+	numbersEl.checked? mypassword+=number:'';
+		console.log(typeof mypassword)
+
 	
-	resultEl.innerText = generatePassword(hasLower, hasUpper, hasNumber, hasSymbol, length);
-});
-
-function generatePassword(lower, upper, number, symbol, length) {
-	let generatedPassword = '';
-	const typesCount = lower + upper + number + symbol;
-	const typesArr = [{lower}, {upper}, {number}, {symbol}].filter(item => Object.values(item)[0]);
-	
-	// Doesn't have a selected type
-	if(typesCount === 0) {
-		return '';
+	resultEl.value=generatePass(passlength,mypassword)
+	});
+	function generatePass(passlength,mypassword){
+		let Result='';
+		for(var i=0;i<passlength;i++){
+			Result += mypassword.charAt(Math.floor(Math.random() * 
+			mypassword.length));		}
+			return Result
 	}
-	
-	// create a loop
-	for(let i=0; i<length; i+=typesCount) {
-		typesArr.forEach(type => {
-			const funcName = Object.keys(type)[0];
-			generatedPassword += randomFunc[funcName]();
-		});
-	}
-	
-	const finalPassword = generatedPassword.slice(0, length);
-	
-	return finalPassword;
-}
-
-function getRandomLower() {
-	return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-}
-
-function getRandomUpper() {
-	return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
-}
-
-function getRandomNumber() {
-	return +String.fromCharCode(Math.floor(Math.random() * 10) + 48);
-}
-
-function getRandomSymbol() {
-	const symbols = '!@#$%^&*(){}[]=<>/,.'
-	return symbols[Math.floor(Math.random() * symbols.length)];
-}
-
-
-// // SOCIAL PANEL JS
-// const floating_btn = document.querySelector('.floating-btn');
-// const close_btn = document.querySelector('.close-btn');
-// const social_panel_container = document.querySelector('.social-panel-container');
-
-// floating_btn.addEventListener('click', () => {
-// 	social_panel_container.classList.toggle('visible')
-// });
-
-// close_btn.addEventListener('click', () => {
-// 	social_panel_container.classList.remove('visible')
-// });
